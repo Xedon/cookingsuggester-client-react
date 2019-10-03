@@ -5,28 +5,26 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import {Trans, withTranslation} from "react-i18next";
+import {Home} from "./sites/Home";
 
-const App: React.FC = () => {
-    let homeTabTitle: string = "Home";
-    let addRecipesTitle: string = "Recipes";
-    let suggestionTitle = "Weekly Suggestions";
-    return (
-        <Container>
-            <Row>
-                <h1>Cocking suggester</h1>
-            </Row>
-            <Row>
-                <Tabs id="action-tab">
-                    <Tab title={homeTabTitle}>
+export class App extends React.Component<any, any> {
+    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+        return (
+            <div>
+                <h1><Trans i18nKey="app.description"/></h1>
+                <Tabs id="action-tab" defaultActiveKey="home">
+                    <Tab title={this.props.t("home.title")} eventKey="home">
+                        <Home/>
                     </Tab>
-                    <Tab title={addRecipesTitle}>
+                    <Tab title={this.props.t("recipe.title")} eventKey="recipe">
                     </Tab>
-                    <Tab title={suggestionTitle}>
+                    <Tab title={this.props.t("suggester.title")} eventKey="suggester">
                     </Tab>
                 </Tabs>
-            </Row>
-        </Container>
-    );
+            </div>
+        );
+    }
 }
 
-export default App;
+export default withTranslation()(App);

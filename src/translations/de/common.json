@@ -1,0 +1,15 @@
+{
+  "app": {
+    "title": "Gerichte Orakel"
+  },
+  "home": {
+    "title": "Home",
+    "description": "Dies ist eine App für das vorschlagen von Kochrezepten für die Woche"
+  },
+  "recipe": {
+    "title": "Rezepte"
+  },
+  "suggester": {
+    "title": "Vorschläge"
+  }
+}
