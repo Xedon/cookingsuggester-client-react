@@ -1,30 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import {Trans, withTranslation} from "react-i18next";
-import {Home} from "./sites/Home";
+import React from "react";
+import "./App.css";
+import {Trans} from "react-i18next";
+import {HomeComponent} from "./sites/HomeComponent";
+import {Route, Switch} from "react-router-dom";
+import {Provider} from "react-redux";
+import {applyMiddleware, compose, createStore} from "redux";
+import {reducer} from "./state/reducer/root";
+import {Routes} from "./model/Routes";
+import {ConnectedRouter, push, routerMiddleware} from "connected-react-router";
 
-export class App extends React.Component<any, any> {
-    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-        return (
-            <div>
-                <h1><Trans i18nKey="app.description"/></h1>
-                <Tabs id="action-tab" defaultActiveKey="home">
-                    <Tab title={this.props.t("home.title")} eventKey="home">
-                        <Home/>
-                    </Tab>
-                    <Tab title={this.props.t("recipe.title")} eventKey="recipe">
-                    </Tab>
-                    <Tab title={this.props.t("suggester.title")} eventKey="suggester">
-                    </Tab>
-                </Tabs>
-            </div>
-        );
-    }
-}
+import {history} from "./state/HistoryStore";
+import {RecipeListComponent} from "./sites/RecipeListComponent";
+import {SuggesterComponent} from "./sites/SuggesterComponent";
+import ConnectedMainMenu from "./componens/main-menue/ConnectedMainMenu";
 
-export default withTranslation()(App);
+const composeEnhancers =
+  process.env.NODE_ENV !== "production" &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose;
+
+const enhancers = composeEnhancers(applyMiddleware(routerMiddleware(history)));
+
+const store = createStore(reducer, enhancers);
+const customContext = React.createContext(null);
+store.dispatch(push(Routes.suggester.toString()));
+const App: React.FunctionComponent = () => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <h1>
+        <Trans i18nKey="app.description" />
+      </h1>
+      <ConnectedMainMenu />
+      <Switch>
+        <Route exact path="/">
+          <HomeComponent />
+        </Route>
+        <Route path={Routes.home}>
+          <HomeComponent />
+        </Route>
+        <Route path={Routes.recipe}>
+          <RecipeListComponent />
+        </Route>
+        <Route path={Routes.suggester}>
+          <SuggesterComponent />
+        </Route>
+      </Switch>
+    </ConnectedRouter>
+  </Provider>
+);
+
+export default App;
