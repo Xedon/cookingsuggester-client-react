@@ -1,18 +1,22 @@
 import React from "react";
 import "./App.css";
-import {Trans} from "react-i18next";
-import {HomeComponent} from "./sites/HomeComponent";
-import {Route, Switch} from "react-router-dom";
-import {Provider} from "react-redux";
-import {applyMiddleware, compose, createStore} from "redux";
-import {reducer} from "./state/reducer/root";
-import {Routes} from "./model/Routes";
-import {ConnectedRouter, push, routerMiddleware} from "connected-react-router";
+import { Trans } from "react-i18next";
+import { HomeComponent } from "./sites/HomeComponent";
+import { Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import { applyMiddleware, compose, createStore } from "redux";
+import { reducer } from "./state/reducer/root";
+import { Routes } from "./model/Routes";
+import {
+  ConnectedRouter,
+  push,
+  routerMiddleware
+} from "connected-react-router";
 
-import {history} from "./state/HistoryStore";
-import {RecipeListComponent} from "./sites/RecipeListComponent";
-import {SuggesterComponent} from "./sites/SuggesterComponent";
-import ConnectedMainMenu from "./componens/main-menue/ConnectedMainMenu";
+import { history } from "./state/HistoryStore";
+import { RecipeListComponent } from "./sites/RecipeListComponent";
+import { SuggesterComponent } from "./sites/SuggesterComponent";
+import ConnectedMainMenu from "./components/main-menue/ConnectedMainMenu";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
