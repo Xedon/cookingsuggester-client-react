@@ -14,7 +14,7 @@ import {
 } from "connected-react-router";
 
 import { history } from "./state/HistoryStore";
-import { RecipeListComponent } from "./sites/RecipeListComponent";
+import { RecipeListComponent } from "./components/recipe-list/RecipeListComponent";
 import { SuggesterComponent } from "./sites/SuggesterComponent";
 import ConnectedMainMenu from "./components/main-menue/ConnectedMainMenu";
 
@@ -32,8 +32,8 @@ store.dispatch(push(Routes.suggester.toString()));
 const App: React.FunctionComponent = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <h1>
-        <Trans i18nKey="app.description" />
+      <h1 style={{ textAlign: "center" }}>
+        <Trans i18nKey="app.title" />
       </h1>
       <ConnectedMainMenu />
       <Switch>
@@ -44,7 +44,17 @@ const App: React.FunctionComponent = () => (
           <HomeComponent />
         </Route>
         <Route path={Routes.recipe}>
-          <RecipeListComponent />
+          <RecipeListComponent
+            recipies={[
+              {
+                name: "test",
+                description: "test",
+                id: BigInt(1),
+                recipe_text: "test & test",
+                source: ""
+              }
+            ]}
+          />
         </Route>
         <Route path={Routes.suggester}>
           <SuggesterComponent />
