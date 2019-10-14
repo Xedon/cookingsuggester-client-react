@@ -1,16 +1,77 @@
 import { Reducer } from "redux";
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { loadRecipes } from "../actions/RecipeActions";
-import { RecipeState, initialRecipeState } from "../State";
+import {
+  loadRecipes,
+  loadRecipesAction,
+  addRecipeAction,
+  changeRecipeName,
+  changeRecipeDescription,
+  changeRecipeText,
+  changeRecipeSource
+} from "../actions/RecipeActions";
+import { RecipeState, initialRecipeState } from "../States";
 import { Action } from "history";
 import promise, { FluxStandardAction } from "redux-promise-middleware";
+import { routerActions } from "connected-react-router";
+import { statement } from "@babel/template";
 
 export const reducer = reducerWithInitialState(initialRecipeState)
-  .case(
-    loadRecipes.started,
-    (state, payload) => ({
-        ...state
-        loadedRecipes = payload._embedded["/recipes"
-    ]})
-  )
+  .case(loadRecipesAction.started, (state, payload) => ({
+    ...state,
+    loading: true
+  }))
+  .case(loadRecipesAction.done, (state, payload) => ({
+    ...state,
+    loading: false,
+    page: payload.result.page.number,
+    pages: payload.result.page.totalPages,
+    recipies: payload.result._embedded.recipes
+  }))
+  .case(loadRecipesAction.failed, (state, payload) => ({
+    ...state,
+    loading: false,
+    page: 0,
+    pages: 0,
+    recipies: []
+  }))
+  .case(addRecipeAction.started, state => ({
+    ...state,
+    loading: true
+  }))
+  .case(addRecipeAction.done, state => ({
+    ...state,
+    loading: false
+  }))
+  .case(addRecipeAction.failed, state => ({
+    ...state,
+    loading: false
+  }))
+  .case(changeRecipeName, (state, payload) => ({
+    ...state,
+    formRecipe: {
+      ...state.formRecipe,
+      name: payload
+    }
+  }))
+  .case(changeRecipeDescription, (state, payload) => ({
+    ...state,
+    formRecipe: {
+      ...state.formRecipe,
+      description: payload
+    }
+  }))
+  .case(changeRecipeSource, (state, payload) => ({
+    ...state,
+    formRecipe: {
+      ...state.formRecipe,
+      source: payload
+    }
+  }))
+  .case(changeRecipeText, (state, payload) => ({
+    ...state,
+    formRecipe: {
+      ...state.formRecipe,
+      recipe_text: payload
+    }
+  }))
   .build();

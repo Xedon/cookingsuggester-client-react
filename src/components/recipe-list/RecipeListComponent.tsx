@@ -7,19 +7,32 @@ import {
   Button,
   Icon,
   Table,
-  Popup
+  Popup,
+  Pagination,
+  InputOnChangeData
 } from "semantic-ui-react";
 import { Trans, useTranslation } from "react-i18next";
 import "./RecipeListComponent.css";
 import { Recipe } from "../../model/Recipe";
 
-interface RecipeListProps {
+export interface RecipeListProps {
+  loading: boolean;
   recipies: Array<Recipe>;
+  formRecipe: Recipe;
+  page: number;
+  pages: number;
 }
 
-interface RecipeListDispatch {}
+export interface RecipeListDispatch {
+  onPageChange: (page: number) => void;
+  onAddNewRecipe: (recipe: Recipe) => void;
+  onRecipeNameChange: (newName: string) => void;
+  onRecipeDescriptionChange: (newDescription: string) => void;
+  onRecipeSourceChange: (newSource: string) => void;
+  onRecipeRecipeTextChange: (newRecipeText: string) => void;
+}
 
-type Props = RecipeListProps & RecipeListDispatch;
+export type Props = RecipeListProps & RecipeListDispatch;
 
 const formStyle: React.CSSProperties = {
   border: "whitesmoke",
@@ -39,16 +52,31 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
   const { t } = useTranslation();
   return (
     <Container style={formStyle}>
-      <Form>
-        <Form.Input type="text" label={t("recipe.form.name")}></Form.Input>
-        <Form.TextArea label={t("recipe.form.description")} />
-        <Form.Input type="text" label={t("recipe.form.source")}></Form.Input>
+      <Form onSubmit={() => props.onAddNewRecipe(props.formRecipe)}>
         <Form.Input
           type="text"
-          label={t("recipe.form.recipe_text")}
+          label={t("recipe.form.name")}
+          onChange={(event, data) => props.onRecipeNameChange(data.value)}
         ></Form.Input>
+        <Form.TextArea
+          label={t("recipe.form.description")}
+          onChange={(event, data) =>
+            props.onRecipeDescriptionChange(data.value as string)
+          }
+        />
+        <Form.Input
+          type="text"
+          label={t("recipe.form.source")}
+          onChange={(event, data) => props.onRecipeSourceChange(data.value)}
+        />
+        <Form.TextArea
+          label={t("recipe.form.recipe_text")}
+          onChange={(event, data) =>
+            props.onRecipeRecipeTextChange(data.value as string)
+          }
+        ></Form.TextArea>
         <Form.Group inline>
-          <Form.Button color={"green"}>
+          <Form.Button type="submit" color={"green"}>
             <Icon name="add"></Icon>
             {t("recipe.form.submitButton")}
           </Form.Button>
@@ -73,7 +101,7 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.recipies.map(element => (
+          {props.recipies.map((element, key) => (
             <Popup
               content={element.recipe_text}
               trigger={
@@ -86,6 +114,19 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
             />
           ))}
         </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan={3}>
+              <Pagination
+                activePage={props.pages + 1}
+                totalPages={props.pages}
+                onPageChange={(pParams, data) =>
+                  props.onPageChange(data.activePage as number)
+                }
+              ></Pagination>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
       </Table>
     </Container>
   );

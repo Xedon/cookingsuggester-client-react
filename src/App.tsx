@@ -17,6 +17,8 @@ import { history } from "./state/HistoryStore";
 import { RecipeListComponent } from "./components/recipe-list/RecipeListComponent";
 import { SuggesterComponent } from "./sites/SuggesterComponent";
 import ConnectedMainMenu from "./components/main-menue/ConnectedMainMenu";
+import { RecipeListComponentConnted } from "./components/recipe-list/RecipeListComponentConnected";
+import { recipeMiddleware } from "./middleware/RecipeMiddleware";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -24,11 +26,12 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
-const enhancers = composeEnhancers(applyMiddleware(routerMiddleware(history)));
+const enhancers = composeEnhancers(
+  applyMiddleware(routerMiddleware(history), recipeMiddleware)
+);
 
 const store = createStore(reducer, enhancers);
 const customContext = React.createContext(null);
-store.dispatch(push(Routes.suggester.toString()));
 const App: React.FunctionComponent = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
@@ -44,17 +47,7 @@ const App: React.FunctionComponent = () => (
           <HomeComponent />
         </Route>
         <Route path={Routes.recipe}>
-          <RecipeListComponent
-            recipies={[
-              {
-                name: "test",
-                description: "test",
-                id: BigInt(1),
-                recipe_text: "test & test",
-                source: ""
-              }
-            ]}
-          />
+          <RecipeListComponentConnted />
         </Route>
         <Route path={Routes.suggester}>
           <SuggesterComponent />

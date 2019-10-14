@@ -1,19 +1,42 @@
 import actionCreatorFactory from "typescript-fsa";
 import { Recipe } from "../../model/Recipe";
-import { RecipeState } from "../State";
+import { RecipeState } from "../States";
 import { createAsyncAction } from "redux-promise-middleware-actions";
 import { RecipeResponseResult } from "../../model/RecipesResponse";
+import wrapAsyncWorker from "../../typing/WrapAsyncWorker";
 
 const actionCreator = actionCreatorFactory("recipe");
 
-export const addRecipe = actionCreator<Recipe>("ADD_RECIPE");
-export const changeRecipe = actionCreator<Recipe>("CHANGE_RECIPE");
-export const removeRecipe = actionCreator<bigint>("REMOVE_RECIPE");
+export const addRecipeAction = actionCreator.async<Recipe, void, {}>("ADD");
+export const addRecipe = wrapAsyncWorker(addRecipeAction, recipe =>
+  fetch("http://localhost:8080/api/v1/recipes", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(recipe)
+  }).then()
+);
 
-export const beginLoadRecipes = actionCreator("CHANGE_RECIPES");
+export const changeRecipe = actionCreator<Recipe>("CHANGE");
+export const removeRecipe = actionCreator<bigint>("REMOVE");
 
-export const loadRecipes = actionCreator.async<
+export const loadRecipesAction = actionCreator.async<
+  number,
   RecipeResponseResult,
-  RecipeState,
   {}
 >("LOAD_RECIPES");
+
+export const loadRecipes = wrapAsyncWorker(loadRecipesAction, page =>
+  fetch("http://localhost:8080/api/v1/recipes?page=" + page).then(
+    (response: Response) => response.json()
+  )
+);
+
+export const changeRecipeName = actionCreator<string>("CHANGE_NAME");
+export const changeRecipeDescription = actionCreator<string>(
+  "CHANGE_DESCRIPTION"
+);
+export const changeRecipeSource = actionCreator<string>("CHANGE_SOURCE");
+export const changeRecipeText = actionCreator<string>("CHANGE_TEXT");

@@ -10,15 +10,19 @@ export type State = Readonly<{
 export type GlobalState = Readonly<{}>;
 
 export type RecipeState = Readonly<{
-  loadedRecipes: Array<Recipe>;
-  pages: number;
+  loading: boolean;
+  recipies: Array<Recipe>;
+  formRecipe: Recipe;
   page: number;
+  pages: number;
 }>;
 
 const initialArray: Array<Recipe> = [];
 
-export const initialRecipeState = {
-  loadedRecipes: initialArray,
+export const initialRecipeState: RecipeState = {
+  recipies: initialArray,
   page: 0,
-  pages: 0
+  pages: 0,
+  loading: false,
+  formRecipe: { name: "", description: "", source: "", recipe_text: "" }
 };

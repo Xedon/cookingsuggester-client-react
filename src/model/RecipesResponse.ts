@@ -2,7 +2,7 @@ import { Recipe } from "./Recipe";
 
 export type RecipeResponseResult = Readonly<{
   _embedded: {
-    "/recipes": Array<Recipe>;
+    recipes: Array<Recipe>;
   };
   _links: {
     self: {
