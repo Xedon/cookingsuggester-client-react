@@ -1,8 +1,9 @@
 import { Recipe } from "./Recipe";
+import { RemoteResourceLink } from "./RemoteResourceLink";
 
 export type RecipeResponseResult = Readonly<{
   _embedded: {
-    recipes: Array<Recipe>;
+    recipes: Array<Recipe & RemoteResourceLink>;
   };
   _links: {
     self: {
