@@ -9,11 +9,15 @@ import {
   Table,
   Popup,
   Pagination,
-  InputOnChangeData
+  InputOnChangeData,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 import { Trans, useTranslation } from "react-i18next";
 import "./RecipeListComponent.css";
 import { Recipe } from "../../model/Recipe";
+import { DayInWeek } from "../../model/DayInWeek";
+import { FoodType } from "../../model/FoodType";
 
 export interface RecipeListProps {
   loading: boolean;
@@ -30,6 +34,7 @@ export interface RecipeListDispatch {
   onRecipeDescriptionChange: (newDescription: string) => void;
   onRecipeSourceChange: (newSource: string) => void;
   onRecipeRecipeTextChange: (newRecipeText: string) => void;
+  onRecipeDayInWeekChange: (newDayInWeek: DayInWeek) => void;
 }
 
 export type Props = RecipeListProps & RecipeListDispatch;
@@ -75,6 +80,33 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
             props.onRecipeRecipeTextChange(data.value as string)
           }
         ></Form.TextArea>
+        <Form.Group>
+          <Form.Dropdown
+            placeholder={t("recipe.sceduling.placeholder")}
+            selection
+            search
+            onChange={(event, data) =>
+              props.onRecipeDayInWeekChange(data.value as DayInWeek)
+            }
+            options={[
+              {
+                key: DayInWeek.WorkDay,
+                value: DayInWeek.WorkDay,
+                text: t("recipe.sceduling.workday") as string
+              },
+              {
+                key: DayInWeek.WeekendDay,
+                value: DayInWeek.WeekendDay,
+                text: t("recipe.sceduling.weekendday") as string
+              },
+              {
+                key: DayInWeek.Both,
+                value: DayInWeek.Both,
+                text: t("recipe.sceduling.both") as string
+              }
+            ]}
+          />
+        </Form.Group>
         <Form.Group inline>
           <Form.Button type="submit" color={"green"}>
             <Icon name="add"></Icon>
@@ -86,48 +118,54 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
           </Form.Button>
         </Form.Group>
       </Form>
-      <Table celled textAlign={"center"}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>
-              <Trans i18nKey="recipe.form.name"></Trans>
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              <Trans i18nKey="recipe.form.description"></Trans>
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              <Trans i18nKey="recipe.form.source"></Trans>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {props.recipies.map((element, key) => (
-            <Popup
-              content={element.recipe_text}
-              trigger={
-                <Table.Row>
-                  <Table.Cell>{element.name}</Table.Cell>
-                  <Table.Cell>{element.description}</Table.Cell>
-                  <Table.Cell>{element.source}</Table.Cell>
-                </Table.Row>
-              }
-            />
-          ))}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan={3}>
-              <Pagination
-                activePage={props.pages + 1}
-                totalPages={props.pages}
-                onPageChange={(pParams, data) =>
-                  props.onPageChange(data.activePage as number)
+      <Dimmer.Dimmable>
+        {" "}
+        <Dimmer active={props.loading}>
+          <Loader />
+        </Dimmer>
+        <Table celled textAlign={"center"}>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Trans i18nKey="recipe.form.name"></Trans>
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                <Trans i18nKey="recipe.form.description"></Trans>
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                <Trans i18nKey="recipe.form.source"></Trans>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {props.recipies.map((element, key) => (
+              <Popup
+                content={element.recipe_text}
+                trigger={
+                  <Table.Row>
+                    <Table.Cell>{element.name}</Table.Cell>
+                    <Table.Cell>{element.description}</Table.Cell>
+                    <Table.Cell>{element.source}</Table.Cell>
+                  </Table.Row>
                 }
-              ></Pagination>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
+              />
+            ))}
+          </Table.Body>
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan={3}>
+                <Pagination
+                  activePage={props.pages + 1}
+                  totalPages={props.pages}
+                  onPageChange={(pParams, data) =>
+                    props.onPageChange(data.activePage as number)
+                  }
+                ></Pagination>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        </Table>
+      </Dimmer.Dimmable>
     </Container>
   );
 };

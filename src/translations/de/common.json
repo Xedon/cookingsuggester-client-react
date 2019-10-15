@@ -8,6 +8,12 @@
   },
   "recipe": {
     "title": "Rezepte",
+    "sceduling": {
+      "placeholder": "Frequenz",
+      "workday": "Wochentag",
+      "weekendday": "Wochenende",
+      "both": "Egal"
+    },
     "form": {
       "name": "Name",
       "description": "Beschreibung",

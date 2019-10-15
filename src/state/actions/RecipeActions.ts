@@ -4,6 +4,7 @@ import { RecipeState } from "../States";
 import { createAsyncAction } from "redux-promise-middleware-actions";
 import { RecipeResponseResult } from "../../model/RecipesResponse";
 import wrapAsyncWorker from "../../typing/WrapAsyncWorker";
+import { DayInWeek } from "../../model/DayInWeek";
 
 const actionCreator = actionCreatorFactory("recipe");
 
@@ -40,3 +41,4 @@ export const changeRecipeDescription = actionCreator<string>(
 );
 export const changeRecipeSource = actionCreator<string>("CHANGE_SOURCE");
 export const changeRecipeText = actionCreator<string>("CHANGE_TEXT");
+export const changeAllowedOn = actionCreator<DayInWeek>("CHANGE_ALLOWED_ON");

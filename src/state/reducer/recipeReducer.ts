@@ -7,7 +7,8 @@ import {
   changeRecipeName,
   changeRecipeDescription,
   changeRecipeText,
-  changeRecipeSource
+  changeRecipeSource,
+  changeAllowedOn
 } from "../actions/RecipeActions";
 import { RecipeState, initialRecipeState } from "../States";
 import { Action } from "history";
@@ -72,6 +73,13 @@ export const reducer = reducerWithInitialState(initialRecipeState)
     formRecipe: {
       ...state.formRecipe,
       recipe_text: payload
+    }
+  }))
+  .case(changeAllowedOn, (state, payload) => ({
+    ...state,
+    formRecipe: {
+      ...state.formRecipe,
+      allowedOn: payload
     }
   }))
   .build();
