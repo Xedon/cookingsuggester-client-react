@@ -1,14 +1,15 @@
 import actionCreatorFactory from "typescript-fsa";
 import { Recipe } from "../../model/Recipe";
-import { RecipeState } from "../States";
-import { createAsyncAction } from "redux-promise-middleware-actions";
 import { RecipeResponseResult } from "../../model/RecipesResponse";
 import wrapAsyncWorker from "../../typing/WrapAsyncWorker";
 import { DayInWeek } from "../../model/DayInWeek";
+import { reject } from "q";
 
 const actionCreator = actionCreatorFactory("recipe");
 
-export const addRecipeAction = actionCreator.async<Recipe, void, {}>("ADD");
+export const addRecipeAction = actionCreator.async<Recipe, void, Response>(
+  "ADD"
+);
 export const addRecipe = wrapAsyncWorker(addRecipeAction, recipe =>
   fetch("http://localhost:8080/api/v1/recipes", {
     method: "POST",
@@ -17,7 +18,9 @@ export const addRecipe = wrapAsyncWorker(addRecipeAction, recipe =>
       "Content-Type": "application/json"
     },
     body: JSON.stringify(recipe)
-  }).then()
+  }).then((resp: Response) =>
+    resp.status !== 201 ? reject("Cant add Recipe") : undefined
+  )
 );
 
 export const changeRecipe = actionCreator<Recipe>("CHANGE");
@@ -26,12 +29,13 @@ export const removeRecipe = actionCreator<bigint>("REMOVE");
 export const loadRecipesAction = actionCreator.async<
   number,
   RecipeResponseResult,
-  {}
+  Response
 >("LOAD_RECIPES");
 
 export const loadRecipes = wrapAsyncWorker(loadRecipesAction, page =>
   fetch("http://localhost:8080/api/v1/recipes?page=" + page).then(
-    (response: Response) => response.json()
+    (response: Response) =>
+      response.status === 200 ? response.json() : reject("Can not load recipes")
   )
 );
 

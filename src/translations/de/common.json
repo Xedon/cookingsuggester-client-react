@@ -9,7 +9,7 @@
   "recipe": {
     "title": "Rezepte",
     "sceduling": {
-      "placeholder": "Frequenz",
+      "placeholder": "Planung",
       "workday": "Wochentag",
       "weekendday": "Wochenende",
       "both": "Egal"
@@ -19,8 +19,13 @@
       "description": "Beschreibung",
       "source": "Quelle",
       "recipe_text": "Rezept",
+      "dayinweek": "Planung",
       "submitButton": "Hinzufügen",
-      "resetButton": "Zurücksetzen"
+      "resetButton": "Zurücksetzen",
+      "error": {
+        "name": "Braucht einen Namen",
+        "description": "Braucht eine Beschreibung"
+      }
     }
   },
   "suggester": {

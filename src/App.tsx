@@ -14,11 +14,11 @@ import {
 } from "connected-react-router";
 
 import { history } from "./state/HistoryStore";
-import { RecipeListComponent } from "./components/recipe-list/RecipeListComponent";
 import { SuggesterComponent } from "./sites/SuggesterComponent";
 import ConnectedMainMenu from "./components/main-menue/ConnectedMainMenu";
 import { RecipeListComponentConnted } from "./components/recipe-list/RecipeListComponentConnected";
 import { recipeMiddleware } from "./middleware/RecipeMiddleware";
+import thunk from "redux-thunk";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -27,7 +27,7 @@ const composeEnhancers =
     : compose;
 
 const enhancers = composeEnhancers(
-  applyMiddleware(routerMiddleware(history), recipeMiddleware)
+  applyMiddleware(routerMiddleware(history), recipeMiddleware, thunk)
 );
 
 const store = createStore(reducer, enhancers);

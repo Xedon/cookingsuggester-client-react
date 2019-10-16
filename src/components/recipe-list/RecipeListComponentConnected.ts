@@ -20,9 +20,11 @@ import { AnyARecord } from "dns";
 import { AnyAction } from "redux-promise-middleware-actions/lib/actions";
 import { Dispatch } from "redux";
 import { Recipe } from "../../model/Recipe";
+import { DayInWeek } from "../../model/DayInWeek";
 
 const mapStateToProps = (state: State): RecipeListProps => ({
   loading: state.recipe.loading,
+  loadingError: state.recipe.loadingError,
   recipies: state.recipe.recipies,
   formRecipe: state.recipe.formRecipe,
   page: state.recipe.page,

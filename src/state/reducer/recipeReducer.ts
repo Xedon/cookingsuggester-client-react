@@ -31,6 +31,7 @@ export const reducer = reducerWithInitialState(initialRecipeState)
   .case(loadRecipesAction.failed, (state, payload) => ({
     ...state,
     loading: false,
+    loadingError: "Failed to load Recipe/s",
     page: 0,
     pages: 0,
     recipies: []
@@ -43,9 +44,10 @@ export const reducer = reducerWithInitialState(initialRecipeState)
     ...state,
     loading: false
   }))
-  .case(addRecipeAction.failed, state => ({
+  .case(addRecipeAction.failed, (state, payload) => ({
     ...state,
-    loading: false
+    loading: false,
+    loadingError: "Failed to add Recipe"
   }))
   .case(changeRecipeName, (state, payload) => ({
     ...state,
