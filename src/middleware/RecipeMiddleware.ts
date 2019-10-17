@@ -5,17 +5,20 @@ import { Routes } from "../model/Routes";
 import {
   loadRecipesAction,
   loadRecipes,
-  addRecipeAction
+  addRecipeAction,
+  resetRecipeForm
 } from "../state/actions/RecipeActions";
 
 export const recipeMiddleware: Middleware<{}, State> = store => next => (
   action: LocationChangeAction
 ) => {
   if (
-    (action.type === LOCATION_CHANGE &&
-      action.payload.location.pathname === Routes.recipe) ||
-    addRecipeAction.done.match(action)
+    action.type === LOCATION_CHANGE &&
+    action.payload.location.pathname === Routes.recipe
   ) {
+    loadRecipes(store.dispatch, store.getState().recipe.page);
+  } else if (addRecipeAction.done.match(action)) {
+    store.dispatch(resetRecipeForm());
     loadRecipes(store.dispatch, store.getState().recipe.page);
   }
   next(action);

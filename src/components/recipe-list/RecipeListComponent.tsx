@@ -34,6 +34,7 @@ export interface RecipeListProps {
 export interface RecipeListDispatch {
   onPageChange: (page: number) => void;
   onAddNewRecipe: (recipe: Recipe) => void;
+  onRecipeReset: () => void;
   onRecipeNameChange: (newName: string) => void;
   onRecipeDescriptionChange: (newDescription: string) => void;
   onRecipeSourceChange: (newSource: string) => void;
@@ -90,6 +91,7 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
           label={t("recipe.form.name")}
           onChange={(event, data) => props.onRecipeNameChange(data.value)}
           error={props.formRecipe.name ? false : t("recipe.form.error.name")}
+          value={props.formRecipe.name}
         ></Form.Input>
         <Form.TextArea
           label={t("recipe.form.description")}
@@ -102,17 +104,20 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
           onChange={(event, data) =>
             props.onRecipeDescriptionChange(data.value as string)
           }
+          value={props.formRecipe.description}
         />
         <Form.Input
           type="text"
           label={t("recipe.form.source")}
           onChange={(event, data) => props.onRecipeSourceChange(data.value)}
+          value={props.formRecipe.source}
         />
         <Form.TextArea
           label={t("recipe.form.recipe_text")}
           onChange={(event, data) =>
             props.onRecipeRecipeTextChange(data.value as string)
           }
+          value={props.formRecipe.recipe_text}
         ></Form.TextArea>
         <Form.Group>
           <Form.Dropdown
@@ -125,6 +130,7 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
             }
             options={dayInWeekOptions}
             defaultValue={DayInWeek.Both}
+            value={props.formRecipe.allowedOn}
           />
         </Form.Group>
         <Form.Group inline>
@@ -132,7 +138,11 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
             <Icon name="add"></Icon>
             {t("recipe.form.submitButton")}
           </Form.Button>
-          <Form.Button color={"grey"}>
+          <Form.Button
+            type="button"
+            color={"grey"}
+            onClick={() => props.onRecipeReset()}
+          >
             <Icon name="remove"></Icon>
             {t("recipe.form.resetButton")}
           </Form.Button>

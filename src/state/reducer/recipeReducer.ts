@@ -8,13 +8,15 @@ import {
   changeRecipeDescription,
   changeRecipeText,
   changeRecipeSource,
-  changeAllowedOn
+  changeAllowedOn,
+  resetRecipeForm
 } from "../actions/RecipeActions";
 import { RecipeState, initialRecipeState } from "../States";
 import { Action } from "history";
 import promise, { FluxStandardAction } from "redux-promise-middleware";
 import { routerActions } from "connected-react-router";
 import { statement } from "@babel/template";
+import { DayInWeek } from "../../model/DayInWeek";
 
 export const reducer = reducerWithInitialState(initialRecipeState)
   .case(loadRecipesAction.started, (state, payload) => ({
@@ -48,6 +50,17 @@ export const reducer = reducerWithInitialState(initialRecipeState)
     ...state,
     loading: false,
     loadingError: "Failed to add Recipe"
+  }))
+  .case(resetRecipeForm, state => ({
+    ...state,
+    formRecipe: {
+      allowedOn: DayInWeek.Both,
+      description: "",
+      foodTypes: [],
+      name: "",
+      recipe_text: "",
+      source: ""
+    }
   }))
   .case(changeRecipeName, (state, payload) => ({
     ...state,

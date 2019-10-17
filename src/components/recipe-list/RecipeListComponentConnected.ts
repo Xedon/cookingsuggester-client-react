@@ -14,7 +14,8 @@ import {
   changeRecipeDescription,
   changeRecipeSource,
   changeRecipeText,
-  changeAllowedOn
+  changeAllowedOn,
+  resetRecipeForm
 } from "../../state/actions/RecipeActions";
 import { AnyARecord } from "dns";
 import { AnyAction } from "redux-promise-middleware-actions/lib/actions";
@@ -52,6 +53,9 @@ const mapDispatchToProps = (dispatch: Dispatch): RecipeListDispatch => ({
   },
   onRecipeDayInWeekChange: (newDayInWeek: DayInWeek) => {
     dispatch(changeAllowedOn(newDayInWeek));
+  },
+  onRecipeReset: () => {
+    dispatch(resetRecipeForm());
   }
 });
 

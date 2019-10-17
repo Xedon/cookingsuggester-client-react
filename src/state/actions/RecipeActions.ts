@@ -39,6 +39,7 @@ export const loadRecipes = wrapAsyncWorker(loadRecipesAction, page =>
   )
 );
 
+export const resetRecipeForm = actionCreator<void>("RESET_RECIPE_FORM");
 export const changeRecipeName = actionCreator<string>("CHANGE_NAME");
 export const changeRecipeDescription = actionCreator<string>(
   "CHANGE_DESCRIPTION"
