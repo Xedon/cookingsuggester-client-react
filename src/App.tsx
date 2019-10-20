@@ -14,11 +14,11 @@ import {
 } from "connected-react-router";
 
 import { history } from "./state/HistoryStore";
-import { SuggesterComponent } from "./components/suggestion-list/SuggesterListComponent";
 import ConnectedMainMenu from "./components/main-menue/ConnectedMainMenu";
 import { RecipeListComponentConnted } from "./components/recipe-list/RecipeListComponentConnected";
 import { recipeMiddleware } from "./middleware/RecipeMiddleware";
 import thunk from "redux-thunk";
+import { SuggestionListComponentConnted } from "./components/suggestion-list/SuggestionListComponentConnected";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -50,7 +50,7 @@ const App: React.FunctionComponent = () => (
           <RecipeListComponentConnted />
         </Route>
         <Route path={Routes.suggester}>
-          <SuggesterComponent />
+          <SuggestionListComponentConnted />
         </Route>
       </Switch>
     </ConnectedRouter>

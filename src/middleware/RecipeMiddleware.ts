@@ -8,15 +8,19 @@ import {
   addRecipeAction,
   resetRecipeForm
 } from "../state/actions/RecipeActions";
+import { loadSuggestionFor } from "../state/actions/SuggestionActions";
 
 export const recipeMiddleware: Middleware<{}, State> = store => next => (
   action: LocationChangeAction
 ) => {
-  if (
-    action.type === LOCATION_CHANGE &&
-    action.payload.location.pathname === Routes.recipe
-  ) {
-    loadRecipes(store.dispatch, store.getState().recipe.page);
+  if (action.type === LOCATION_CHANGE) {
+    if (action.payload.location.pathname === Routes.recipe)
+      loadRecipes(store.dispatch, store.getState().recipe.page);
+    else if (action.payload.location.pathname === Routes.suggester) {
+      var to: Date = new Date();
+      to.setDate(to.getDate() + 7);
+      loadSuggestionFor(store.dispatch, { from: new Date(), to: to });
+    }
   } else if (addRecipeAction.done.match(action)) {
     store.dispatch(resetRecipeForm());
     loadRecipes(store.dispatch, store.getState().recipe.page);

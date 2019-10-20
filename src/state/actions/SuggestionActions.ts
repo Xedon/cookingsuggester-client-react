@@ -3,24 +3,25 @@ import { SuggestionScope } from "../../model/SuggestionScope";
 import { Suggestion } from "../../model/Suggestion";
 import wrapAsyncWorker from "../../typing/WrapAsyncWorker";
 import { RemoteResourceLink } from "../../model/RemoteResourceLink";
+import { SuggestionResponse } from "../../model/SuggestionResponse";
 
 const actionCreator = actionCreatorFactory("suggestion");
 
 export const loadSuggestionForAction = actionCreator.async<
   SuggestionScope,
-  Array<Suggestion>,
+  SuggestionResponse,
   void
 >("LOAD_SUGGESTION_FOR");
 
 export const loadSuggestionFor = wrapAsyncWorker(
   loadSuggestionForAction,
   (scope: SuggestionScope) =>
-    fetch("http://localhost:8080/api/v1/suggestions", {
-      body: new URLSearchParams([
-        ["from", scope.from.toJSON()],
-        ["to", scope.to.toJSON()]
-      ])
-    }).then((response: Response) => response.json())
+    fetch(
+      "http://localhost:8080/api/v1/suggestions/search?from=" +
+        encodeURIComponent(scope.from.toISOString()) +
+        "&to=" +
+        encodeURIComponent(scope.to.toISOString())
+    ).then((response: Response) => response.json())
 );
 
 export const deleteSuggestionAction = actionCreator.async<
