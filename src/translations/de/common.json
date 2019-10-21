@@ -29,6 +29,17 @@
     }
   },
   "suggester": {
-    "title": "Vorschläge"
+    "title": "Vorschläge",
+    "sceduling": {
+      "placeholder": "Planung",
+      "workday": "Wochentag",
+      "weekendday": "Wochenende",
+      "both": "Egal"
+    },
+    "name": "Name",
+    "description": "Beschreibung",
+    "source": "Quelle",
+    "recipe_text": "Rezept",
+    "dateFor": "An"
   }
 }

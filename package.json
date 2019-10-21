@@ -30,6 +30,7 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
+    "ts.data.json": "^0.3.0",
     "typescript": "3.6.3",
     "typescript-fsa": "^3.0.0",
     "typescript-fsa-reducers": "^1.2.1"

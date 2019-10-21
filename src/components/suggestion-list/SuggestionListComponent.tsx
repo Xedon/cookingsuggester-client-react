@@ -82,16 +82,19 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell
-                content={t("recipe.form.name")}
+                content={t("suggester.dateFor")}
               ></Table.HeaderCell>
               <Table.HeaderCell
-                content={t("recipe.form.description")}
+                content={t("suggester.name")}
               ></Table.HeaderCell>
               <Table.HeaderCell
-                content={t("recipe.form.source")}
+                content={t("suggester.description")}
               ></Table.HeaderCell>
               <Table.HeaderCell
-                content={t("recipe.form.dayinweek")}
+                content={t("suggester.source")}
+              ></Table.HeaderCell>
+              <Table.HeaderCell
+                content={t("suggester.dayinweek")}
               ></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -101,6 +104,7 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
                 content={element.recipe.recipe_text}
                 trigger={
                   <Table.Row>
+                    <Table.Cell>{element.date.toLocaleString()}</Table.Cell>
                     <Table.Cell>{element.recipe.name}</Table.Cell>
                     <Table.Cell>{element.recipe.description}</Table.Cell>
                     <Table.Cell>{element.recipe.source}</Table.Cell>
@@ -118,7 +122,7 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
           </Table.Body>
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan={4}>
+              <Table.HeaderCell colSpan={5}>
                 <Pagination
                   activePage={props.pages + 1}
                   totalPages={props.pages}

@@ -1,6 +1,6 @@
-import {Recipe} from "./Recipe";
+import { Recipe } from "./Recipe";
 
 export type Suggestion = Readonly<{
-    forDay:Date
-    recipe:Recipe
-}>
+  date: Date;
+  recipe: Recipe;
+}>;
