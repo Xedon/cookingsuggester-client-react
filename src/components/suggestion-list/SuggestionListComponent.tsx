@@ -104,7 +104,7 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
                 content={element.recipe.recipe_text}
                 trigger={
                   <Table.Row>
-                    <Table.Cell>{element.date.toLocaleString()}</Table.Cell>
+                    <Table.Cell>{element.date.toLocaleDateString()}</Table.Cell>
                     <Table.Cell>{element.recipe.name}</Table.Cell>
                     <Table.Cell>{element.recipe.description}</Table.Cell>
                     <Table.Cell>{element.recipe.source}</Table.Cell>

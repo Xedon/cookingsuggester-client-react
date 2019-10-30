@@ -18,9 +18,9 @@ export const loadSuggestionFor = wrapAsyncWorker(
   (scope: SuggestionScope) =>
     fetch(
       "http://localhost:8080/api/v1/suggestions/search?from=" +
-        encodeURIComponent(scope.from.toISOString()) +
+        encodeURIComponent(scope.from.toJSON()) +
         "&to=" +
-        encodeURIComponent(scope.to.toISOString())
+        encodeURIComponent(scope.to.toJSON())
     ).then((response: Response) => response.json())
 );
 

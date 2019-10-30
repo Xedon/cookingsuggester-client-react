@@ -16,7 +16,10 @@ export const reducer = reducerWithInitialState<SuggestionState>(
   }))
   .case(loadSuggestionForAction.done, (state, playload) => ({
     ...state,
-    suggestions: playload.result.content,
+    suggestions: playload.result.content.map(suggestion => ({
+      date: new Date(suggestion.date),
+      recipe: suggestion.recipe
+    })),
     page: playload.result.number,
     pages: playload.result.totalPages,
     loading: false,
