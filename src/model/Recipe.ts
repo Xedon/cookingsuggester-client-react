@@ -6,7 +6,7 @@ export type Recipe = Readonly<{
   name: string;
   description: string;
   source: string;
-  recipe_text: string;
+  recipeText: string;
   foodTypes: Array<FoodType>;
   allowedOn: DayInWeek;
 }>;

@@ -19,6 +19,7 @@ import { RecipeListComponentConnted } from "./components/recipe-list/RecipeListC
 import { recipeMiddleware } from "./middleware/RecipeMiddleware";
 import thunk from "redux-thunk";
 import { SuggestionListComponentConnted } from "./components/suggestion-list/SuggestionListComponentConnected";
+import { suggestionMiddleware } from "./middleware/SuggestionMiddleware";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -27,7 +28,12 @@ const composeEnhancers =
     : compose;
 
 const enhancers = composeEnhancers(
-  applyMiddleware(routerMiddleware(history), recipeMiddleware, thunk)
+  applyMiddleware(
+    routerMiddleware(history),
+    recipeMiddleware,
+    suggestionMiddleware,
+    thunk
+  )
 );
 
 const store = createStore(reducer, enhancers);

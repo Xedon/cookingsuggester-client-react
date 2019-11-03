@@ -34,7 +34,8 @@
       "placeholder": "Planung",
       "workday": "Wochentag",
       "weekendday": "Wochenende",
-      "both": "Egal"
+      "both": "Egal",
+      "dayinweek": "Planung"
     },
     "name": "Name",
     "description": "Beschreibung",

@@ -22,6 +22,7 @@ describe("Test RecipeListComponent", () => {
     const onRecipeNameChange = jest.fn();
     const onRecipeRecipeTextChange = jest.fn();
     const onRecipeSourceChange = jest.fn();
+    const onRecipeReset = jest.fn();
     const { container, getByDisplayValue } = render(
       <RecipeListComponent
         onAddNewRecipe={onAddNewRecipe}
@@ -31,6 +32,7 @@ describe("Test RecipeListComponent", () => {
         onRecipeNameChange={onRecipeNameChange}
         onRecipeRecipeTextChange={onRecipeRecipeTextChange}
         onRecipeSourceChange={onRecipeSourceChange}
+        onRecipeReset={onRecipeReset}
         loading={false}
         loadingError={""}
         recipies={[]}
@@ -38,7 +40,7 @@ describe("Test RecipeListComponent", () => {
         pages={0}
         formRecipe={{
           name: "",
-          recipe_text: "",
+          recipeText: "",
           description: "",
           source: "",
           allowedOn: DayInWeek.Both,

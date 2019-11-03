@@ -9,6 +9,7 @@ import {
   resetRecipeForm
 } from "../state/actions/RecipeActions";
 import { loadSuggestionFor } from "../state/actions/SuggestionActions";
+import { SuggestionScope } from "../model/SuggestionScope";
 
 export const recipeMiddleware: Middleware<{}, State> = store => next => (
   action: LocationChangeAction
@@ -19,7 +20,7 @@ export const recipeMiddleware: Middleware<{}, State> = store => next => (
     else if (action.payload.location.pathname === Routes.suggester) {
       var to: Date = new Date();
       to.setDate(to.getDate() + 7);
-      loadSuggestionFor(store.dispatch, { from: new Date(), to: to });
+      loadSuggestionFor(store.dispatch, new SuggestionScope());
     }
   } else if (addRecipeAction.done.match(action)) {
     store.dispatch(resetRecipeForm());

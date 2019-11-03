@@ -4,19 +4,24 @@ import {
   reducerWithInitialState,
   reducerWithoutInitialState
 } from "typescript-fsa-reducers";
-import { loadSuggestionForAction } from "../actions/SuggestionActions";
+import {
+  loadSuggestionForAction,
+  changeSuggestionScope
+} from "../actions/SuggestionActions";
 
 export const reducer = reducerWithInitialState<SuggestionState>(
   initialSuggestionState
 )
-  .case(loadSuggestionForAction.started, (state, playload) => ({
+  .case(loadSuggestionForAction.started, state => ({
     ...state,
     loading: true,
-    loadingError: ""
+    loadingError: "",
+    suggestions: []
   }))
   .case(loadSuggestionForAction.done, (state, playload) => ({
     ...state,
     suggestions: playload.result.content.map(suggestion => ({
+      id: suggestion.id,
       date: new Date(suggestion.date),
       recipe: suggestion.recipe
     })),
@@ -24,5 +29,9 @@ export const reducer = reducerWithInitialState<SuggestionState>(
     pages: playload.result.totalPages,
     loading: false,
     loadingError: ""
+  }))
+  .case(changeSuggestionScope, (state, payload) => ({
+    ...state,
+    suggestionScope: payload
   }))
   .build();

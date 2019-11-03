@@ -1,25 +1,22 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
+import { useTranslation } from "react-i18next";
 import {
-  Label,
-  Form,
-  Input,
   Button,
-  Icon,
-  Table,
-  Popup,
-  Pagination,
-  InputOnChangeData,
   Dimmer,
   Loader,
-  Dropdown,
-  Message
+  Message,
+  Pagination,
+  Popup,
+  Table
 } from "semantic-ui-react";
-import { Trans, useTranslation } from "react-i18next";
 import { DayInWeek } from "../../model/DayInWeek";
 import { Suggestion } from "../../model/Suggestion";
+import { SuggestionScope } from "../../model/SuggestionScope";
+import { SuggestionScopeSelect } from "./SuggestionScopeSelect";
 
 export interface SuggestionListProps {
+  suggestionScope: SuggestionScope;
   loading: boolean;
   loadingError: String;
   suggestions: Array<Suggestion>;
@@ -30,6 +27,7 @@ export interface SuggestionListProps {
 export interface SuggestionListDispatch {
   onPageChange: (page: number) => void;
   onDeleteSuggestion: (recipe: Suggestion) => void;
+  onSuggestionScopeChange: (suggestionScope: SuggestionScope) => void;
 }
 
 export type Props = SuggestionListProps & SuggestionListDispatch;
@@ -78,6 +76,10 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
         <Dimmer active={props.loading}>
           <Loader />
         </Dimmer>
+        <SuggestionScopeSelect
+          selectedScope={props.suggestionScope}
+          onSelectScope={props.onSuggestionScopeChange}
+        />
         <Table celled textAlign={"center"}>
           <Table.Header>
             <Table.Row>
@@ -96,12 +98,13 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
               <Table.HeaderCell
                 content={t("suggester.dayinweek")}
               ></Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {props.suggestions.map((element, key) => (
               <Popup
-                content={element.recipe.recipe_text}
+                content={element.recipe.recipeText}
                 trigger={
                   <Table.Row>
                     <Table.Cell>{element.date.toLocaleDateString()}</Table.Cell>
@@ -114,6 +117,13 @@ export const SuggestionListComponent: React.FunctionComponent<Props> = function(
                           elem => elem.key === element.recipe.allowedOn
                         )!.text
                       }
+                    </Table.Cell>
+                    <Table.Cell width="1">
+                      <Button
+                        icon="trash"
+                        color="red"
+                        onClick={() => props.onDeleteSuggestion(element)}
+                      />
                     </Table.Cell>
                   </Table.Row>
                 }

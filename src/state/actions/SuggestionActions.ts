@@ -17,7 +17,7 @@ export const loadSuggestionFor = wrapAsyncWorker(
   loadSuggestionForAction,
   (scope: SuggestionScope) =>
     fetch(
-      "http://localhost:8080/api/v1/suggestions/search?from=" +
+      "http://localhost:8080/api/v1/suggestions/search?sort=date&from=" +
         encodeURIComponent(scope.from.toJSON()) +
         "&to=" +
         encodeURIComponent(scope.to.toJSON())
@@ -25,13 +25,19 @@ export const loadSuggestionFor = wrapAsyncWorker(
 );
 
 export const deleteSuggestionAction = actionCreator.async<
-  Suggestion & RemoteResourceLink,
+  Suggestion,
   void,
   void
 >("DELETE_SUGGESTION");
 
 export const deleteSuggestion = wrapAsyncWorker(
   deleteSuggestionAction,
-  (suggestion: Suggestion & RemoteResourceLink) =>
-    fetch(suggestion._links.self.href, { method: "DELETE" }).then()
+  (suggestion: Suggestion) =>
+    fetch("http://localhost:8080/api/v1/suggestions/" + suggestion.id, {
+      method: "DELETE"
+    }).then()
+);
+
+export const changeSuggestionScope = actionCreator<SuggestionScope>(
+  "CHANGE_SUGGESTION_SCOPE"
 );

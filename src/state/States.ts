@@ -25,6 +25,7 @@ export type RecipeState = Readonly<{
 }>;
 
 export type SuggestionState = Readonly<{
+  suggestionScope: SuggestionScope;
   loading: boolean;
   loadingError: String;
   suggestions: Array<Suggestion>;
@@ -34,6 +35,7 @@ export type SuggestionState = Readonly<{
 
 const initialSuggestionArray: Array<Suggestion> = [];
 export const initialSuggestionState: SuggestionState = {
+  suggestionScope: new SuggestionScope(),
   suggestions: initialSuggestionArray,
   page: 0,
   pages: 0,
@@ -53,7 +55,7 @@ export const initialRecipeState: RecipeState = {
     name: "",
     description: "",
     source: "",
-    recipe_text: "",
+    recipeText: "",
     foodTypes: [],
     allowedOn: DayInWeek.Both
   }

@@ -117,7 +117,7 @@ export const RecipeListComponent: React.FunctionComponent<Props> = function(
           onChange={(event, data) =>
             props.onRecipeRecipeTextChange(data.value as string)
           }
-          value={props.formRecipe.recipe_text}
+          value={props.formRecipe.recipeText}
         ></Form.TextArea>
         <Form.Group>
           <Form.Dropdown
@@ -182,7 +182,7 @@ const RecipeTable = (
       <Table.Body>
         {props.recipies.map((element, key) => (
           <Popup
-            content={element.recipe_text}
+            content={element.recipeText}
             trigger={
               <Table.Row>
                 <Table.Cell>{element.name}</Table.Cell>

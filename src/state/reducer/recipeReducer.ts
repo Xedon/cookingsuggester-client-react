@@ -58,7 +58,7 @@ export const reducer = reducerWithInitialState(initialRecipeState)
       description: "",
       foodTypes: [],
       name: "",
-      recipe_text: "",
+      recipeText: "",
       source: ""
     }
   }))
@@ -87,7 +87,7 @@ export const reducer = reducerWithInitialState(initialRecipeState)
     ...state,
     formRecipe: {
       ...state.formRecipe,
-      recipe_text: payload
+      recipeText: payload
     }
   }))
   .case(changeAllowedOn, (state, payload) => ({

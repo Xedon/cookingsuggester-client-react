@@ -1,28 +1,22 @@
-import { connect } from "react-redux";
-import { State, SuggestionState } from "../../state/States";
 import { ComponentType } from "react";
-import {
-  loadRecipes,
-  addRecipe,
-  changeRecipeName,
-  changeRecipeDescription,
-  changeRecipeSource,
-  changeRecipeText,
-  changeAllowedOn,
-  resetRecipeForm
-} from "../../state/actions/RecipeActions";
+import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { Recipe } from "../../model/Recipe";
-import { DayInWeek } from "../../model/DayInWeek";
-import {
-  Props,
-  SuggestionListProps,
-  SuggestionListDispatch
-} from "./SuggestionListComponent";
 import { Suggestion } from "../../model/Suggestion";
-import { SuggestionListComponent } from "./SuggestionListComponent";
+import { loadRecipes } from "../../state/actions/RecipeActions";
+import {
+  deleteSuggestion,
+  changeSuggestionScope
+} from "../../state/actions/SuggestionActions";
+import { State } from "../../state/States";
+import { SuggestionScope } from "../../model/SuggestionScope";
+import {
+  SuggestionListComponent,
+  SuggestionListDispatch,
+  SuggestionListProps
+} from "./SuggestionListComponent";
 
 const mapStateToProps = (state: State): SuggestionListProps => ({
+  suggestionScope: state.suggestion.suggestionScope,
   loading: state.suggestion.loading,
   loadingError: state.suggestion.loadingError,
   suggestions: state.suggestion.suggestions,
@@ -34,7 +28,12 @@ const mapDispatchToProps = (dispatch: Dispatch): SuggestionListDispatch => ({
   onPageChange: (page: number) => {
     loadRecipes(dispatch, page - 1);
   },
-  onDeleteSuggestion: (suggestion: Suggestion) => {}
+  onDeleteSuggestion: (suggestion: Suggestion) => {
+    deleteSuggestion(dispatch, suggestion);
+  },
+  onSuggestionScopeChange: (suggestionScope: SuggestionScope) => {
+    dispatch(changeSuggestionScope(suggestionScope));
+  }
 });
 
 export const SuggestionListComponentConnted: ComponentType = connect(
